@@ -1,0 +1,36 @@
+{{!< default}}
+
+<main class="site">
+
+    <header class="site-header">
+        <h1 class="site-title"><a href="{{@site.url}}">{{@site.title}}</a></h1>
+    </header>
+
+    <section class="post-list">
+        {{#foreach posts}}
+        <div class="post-item">
+            <a href="{{url absolute="true"}}" class="post-link">/{{slug}}</a>
+        </div>
+        {{/foreach}}
+    </section>
+
+    <footer class="site-footer">
+        <div class="subscribe">
+            <p>Get new writing in your inbox.</p>
+            {{#if @site.members_enabled}}
+            <form data-members-form="subscribe">
+                <input type="email" data-members-email placeholder="your@email.com" required>
+                <button type="submit">Subscribe</button>
+                <p class="subscribe-success" style="display:none">You're in.</p>
+                <p class="subscribe-error" style="display:none"></p>
+            </form>
+            {{else}}
+            <form action="{{@site.url}}/subscribe/" method="post">
+                <input type="email" name="email" placeholder="your@email.com" required>
+                <button type="submit">Subscribe</button>
+            </form>
+            {{/if}}
+        </div>
+    </footer>
+
+</main>

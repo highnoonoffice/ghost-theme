@@ -1,0 +1,17 @@
+{
+  "name": "joseph-voelbel",
+  "description": "Hyper-minimal theme for josephvoelbel.com",
+  "version": "1.0.0",
+  "engines": {
+    "ghost": ">=5.0.0"
+  },
+  "author": {
+    "email": "josephvoelbel@gmail.com"
+  },
+  "license": "MIT",
+  "keywords": ["ghost-theme"],
+  "config": {
+    "posts_per_page": 1000,
+    "image_sizes": {}
+  }
+}
