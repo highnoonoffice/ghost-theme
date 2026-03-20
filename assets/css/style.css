@@ -230,9 +230,37 @@ body {
 .kg-width-wide { margin-left: -40px; margin-right: -40px; }
 .kg-width-full { margin-left: -24px; margin-right: -24px; }
 
+/* ---- Refine Your Thought — upper-left tool link ---- */
+
+.ryt-link {
+    position: fixed;
+    top: 20px;
+    left: 24px;
+    font-family: "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.02em;
+    color: #999;
+    text-decoration: none;
+    line-height: 1;
+    z-index: 100;
+    transition: color 0.15s ease;
+}
+
+.ryt-link:hover,
+.ryt-link:focus {
+    color: #1a1a1a;
+    outline: none;
+}
+
+.ryt-link:focus-visible {
+    outline: 1px solid #1a1a1a;
+    outline-offset: 3px;
+}
+
 /* ---- Mobile ---- */
 
 @media (max-width: 520px) {
     .site { padding: 48px 20px 60px; }
     .kg-width-wide, .kg-width-full { margin-left: -20px; margin-right: -20px; }
+    .ryt-link { top: 14px; left: 16px; }
 }
