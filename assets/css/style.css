@@ -115,13 +115,17 @@ body {
 
 .subscribe button:hover { background: #333; }
 
-.subscribe-success, .subscribe-error {
+[data-members-success], [data-members-error] {
     font-size: 0.75rem;
-    color: #888;
     margin-top: 8px;
+    display: none;
 }
 
-.subscribe-error { color: #c00; }
+[data-members-success] { color: #888; }
+[data-members-error] { color: #c00; }
+
+form[data-members-form].success [data-members-success] { display: block; }
+form[data-members-form].error [data-members-error] { display: block; }
 
 /* ---- Post Content ---- */
 

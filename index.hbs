@@ -27,8 +27,8 @@
             <form data-members-form="subscribe">
                 <input type="email" data-members-email placeholder="your@email.com" required>
                 <button type="submit">Subscribe</button>
-                <p class="subscribe-success" style="display:none">You're in.</p>
-                <p class="subscribe-error" style="display:none"></p>
+                <p data-members-success>You're in. Check your inbox for a confirmation link.</p>
+                <p data-members-error></p>
             </form>
             {{else}}
             <form action="{{@site.url}}/subscribe/" method="post">
