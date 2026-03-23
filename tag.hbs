@@ -1,0 +1,23 @@
+{{!< default}}
+
+{{! Tag archive pages — noindex to prevent thin archive pages competing with real content }}
+<meta name="robots" content="noindex, follow">
+
+<main class="site">
+
+    <header class="site-header">
+        <h1 class="site-title"><a href="{{@site.url}}">{{@site.title}}</a></h1>
+    </header>
+
+    <section class="post-list">
+        {{#tag}}
+        <h2 class="tag-title">{{name}}</h2>
+        {{/tag}}
+        {{#foreach posts}}
+        <div class="post-item">
+            <a href="{{url absolute="true"}}" class="post-link">/{{slug}}</a>
+        </div>
+        {{/foreach}}
+    </section>
+
+</main>
