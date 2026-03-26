@@ -209,10 +209,35 @@ form[data-members-form].error [data-members-error] { display: block; }
     margin-bottom: 1.4em;
 }
 
+/* Responsive 16:9 YouTube/video embeds */
+.post-body .kg-embed-card {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    margin: 2em 0;
+    border-radius: 4px;
+}
+
+.post-body .kg-embed-card iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: none;
+}
+
 .post-body iframe {
     max-width: 100%;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
     margin: 2em 0;
     display: block;
+    border: none;
+    border-radius: 4px;
 }
 
 .post-nav {
