@@ -1,13 +1,25 @@
-# joseph-theme
+# Ghost Theme — josephvoelbel.com
 
-Custom Ghost theme for josephvoelbel.com. Hyper-minimal, typography-first.
+Custom Ghost theme for [josephvoelbel.com](https://josephvoelbel.com).
 
-## Features
-- Minimal single-column layout
-- Ghost Pro compatible (v5+)
-- Audio player styling (slim, branded)
-- Page template with proper `{{#page}}` context
-- Code injection compatible
+Hyper-minimal. Typography-first. Built on the premise that the writing should be the
+loudest thing on the page — everything else is furniture.
 
-## Deploy
-Upload `joseph-theme.zip` via Ghost Admin → Settings → Change Theme → Upload Theme.
+## Design decisions
+
+- Black background, gold accents
+- Serif body, clean hierarchy
+- No sidebar, no related posts, no comment section
+- Feature images only when they earn it
+- Mobile-first, intentional whitespace
+
+## Stack
+
+Ghost CMS · Handlebars · CSS
+
+No JavaScript frameworks. No build pipeline beyond what Ghost requires.
+
+## What it's for
+
+Longform essays, 19 Stories fiction, and occasional writing on AI, attention, and the
+future of work. Not designed to be forked — built for one publication and one voice.
