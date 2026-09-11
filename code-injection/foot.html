@@ -1,0 +1,221 @@
+<style>
+#hno-search-wrap{max-width:420px;margin:0 auto 2rem;padding:0 1.5rem}
+#hno-search-row{display:flex;align-items:center;border:1px solid #b8964a;border-radius:4px;background:#fff;padding:0 12px;transition:border-color 0.2s}
+#hno-search-row:focus-within{border-color:#8a6f2e}
+#hno-search-input{flex:1;background:transparent;border:none;outline:none;font-family:inherit;font-size:0.78rem;font-weight:300;letter-spacing:0.02em;color:#111;padding:10px 0}
+#hno-search-input::placeholder{color:rgba(0,0,0,0.28);font-weight:300}
+#hno-search-clear{background:none;border:none;color:rgba(0,0,0,0.22);cursor:pointer;font-size:16px;padding:0;line-height:1;display:none;transition:color 0.15s}
+#hno-search-clear:hover{color:rgba(0,0,0,0.55)}
+#hno-search-results{margin-top:4px;border:1px solid rgba(0,0,0,0.08);border-radius:4px;background:#fff;display:none;overflow:hidden}
+.hno-r{display:flex;align-items:center;gap:12px;padding:10px 14px;text-decoration:none;border-bottom:1px solid rgba(0,0,0,0.05);transition:background 0.12s}
+.hno-r:last-child{border-bottom:none}
+.hno-r:hover{background:#f8f8f8}
+.hno-thumb{width:36px;height:36px;border-radius:3px;object-fit:cover;flex-shrink:0}
+.hno-thumb-ph{width:36px;height:36px;border-radius:3px;background:rgba(0,0,0,0.05);flex-shrink:0}
+.hno-rtitle{font-size:0.75rem;font-weight:400;color:#111;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:0.01em}
+.hno-rexc{font-size:0.68rem;color:rgba(0,0,0,0.38);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+#hno-search-empty{text-align:center;padding:16px;font-size:0.72rem;color:rgba(0,0,0,0.3);display:none}
+mark.hno-hl{background:transparent;color:#111;font-weight:600}
+</style>
+<script>
+(function(){
+  var KEY='f6140169660dfc734227c8c895';
+  var GHOST='https://joseph-voelbel.ghost.io';
+  var posts=[],loaded=false;
+
+  function inject(){
+    var title=document.querySelector('.site-title,.gh-site-title,h1.site-title,[class*="site-title"]');
+    if(!title)return;
+
+    var wrap=document.createElement('div');
+    wrap.id='hno-search-wrap';
+    wrap.innerHTML='<div id="hno-search-row"><input id="hno-search-input" type="text" placeholder="search website" autocomplete="off" spellcheck="false"><button id="hno-search-clear" aria-label="Clear">&times;</button></div><div id="hno-search-results"></div><div id="hno-search-empty">No articles found.</div>';
+    title.parentNode.insertBefore(wrap,title);
+
+    var inp=document.getElementById('hno-search-input');
+    var clr=document.getElementById('hno-search-clear');
+    var res=document.getElementById('hno-search-results');
+    var emp=document.getElementById('hno-search-empty');
+
+    function esc(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+    function hl(t,q){if(!t||!q)return t||'';return t.replace(new RegExp('('+esc(q)+')','gi'),'<mark class="hno-hl">$1</mark>');}
+
+    function render(q){
+      var tr=q.trim().toLowerCase();
+      if(!tr){res.style.display='none';emp.style.display='none';clr.style.display='none';return;}
+      clr.style.display='block';
+      var m=posts.filter(function(p){
+        return ((p.title||'')+' '+(p.excerpt||'')+' '+(p.plaintext||'')).toLowerCase().indexOf(tr)>-1;
+      });
+      if(!m.length){res.style.display='none';emp.style.display='block';return;}
+      emp.style.display='none';
+      res.style.display='block';
+      res.innerHTML=m.map(function(p){
+        var thumb=p.feature_image?'<img class="hno-thumb" src="'+p.feature_image+'" alt="" loading="lazy">':'<div class="hno-thumb-ph"></div>';
+        var slug=p.slug||'';
+        return '<a class="hno-r" href="/'+slug+'/">'+thumb+'<div style="flex:1;min-width:0"><div class="hno-rtitle">'+hl(p.title||'',q.trim())+'</div>'+(p.excerpt?'<div class="hno-rexc">'+hl(p.excerpt.substring(0,80),q.trim())+'</div>':'')+'</div></a>';
+      }).join('');
+    }
+
+    async function load(){
+      if(loaded)return;
+      try{
+        var r=await fetch(GHOST+'/ghost/api/content/posts/?key='+KEY+'&limit=all&fields=title,slug,excerpt,feature_image,plaintext&order=published_at%20desc');
+        var d=await r.json();
+        posts=d.posts||[];
+        loaded=true;
+      }catch(e){}
+    }
+
+    inp.addEventListener('focus',load,{once:true});
+    inp.addEventListener('input',function(){render(this.value);});
+    clr.addEventListener('click',function(){inp.value='';render('');inp.focus();});
+  }
+
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',inject);}else{inject();}
+})();
+</script>
+<style>
+#hno-sub{display:inline-block;text-align:left;margin-top:0.5rem}
+#hno-sub .hno-sub-text{font-size:0.66rem;font-weight:300;letter-spacing:0.025em;opacity:0.5;margin:0 0 0.4rem 0;line-height:1.5;text-transform:lowercase}
+#hno-sub .hno-sub-row{display:flex;align-items:center;gap:0.35rem;max-width:320px;width:100%;margin:0 auto;justify-content:center}
+#hno-sub input[type=email]{background:transparent;border:1px solid rgba(0,0,0,0.22);box-sizing:border-box;outline:none;font-size:0.68rem;font-weight:300;padding:0.22rem 0.45rem;color:inherit;font-family:inherit;flex:none;width:9rem}
+#hno-sub input[type=email]::placeholder{opacity:0.38;font-weight:300}
+#hno-sub button{background:#000;color:#fff;border:none;border-radius:999px;cursor:pointer;font-size:0.62rem;font-weight:400;letter-spacing:0.04em;padding:0.26rem 0.75rem;font-family:inherit;white-space:nowrap;flex:none;transition:opacity 0.2s}
+#hno-sub button:hover{opacity:0.75}
+</style>
+<script>
+(function(){
+  function showMsg(d,text,color){
+    var old=d.querySelector('.hno-sub-msg');
+    if(old)old.remove();
+    var msg=document.createElement('div');
+    msg.className='hno-sub-msg';
+    msg.style.cssText='font-size:0.66rem;font-weight:300;letter-spacing:0.025em;opacity:0.85;margin:0.4rem 0 0;line-height:1.5;color:'+(color||'inherit');
+    msg.textContent=text;
+    d.appendChild(msg);
+  }
+  function init(){
+    var t=document.querySelector('.site-title');
+    if(!t)return;
+    var d=document.createElement('div');
+    d.id='hno-sub';
+    var text=document.createElement('div');
+    text.className='hno-sub-text';
+    text.textContent='articles straight to your inbox. unsubscribe anytime.';
+    var row=document.createElement('div');
+    row.className='hno-sub-row';
+    var inp=document.createElement('input');
+    inp.type='email';
+    inp.placeholder='your email';
+    inp.autocomplete='email';
+    var btn=document.createElement('button');
+    btn.type='button';
+    btn.textContent='subscribe';
+    row.appendChild(inp);
+    row.appendChild(btn);
+    d.appendChild(text);
+    d.appendChild(row);
+    t.parentNode.insertBefore(d,t.nextSibling);
+    inp.addEventListener('keydown',function(e){if(e.key==='Enter')btn.click();});
+    btn.addEventListener('click',function(){
+      var email=inp.value.trim();
+      if(!email)return;
+      if(localStorage.getItem('jv-subscribed')===email){
+        showMsg(d,"you're already in. nice one.");
+        return;
+      }
+      btn.textContent='...';
+      btn.disabled=true;
+      fetch('/members/api/integrity-token/').then(function(ti){return ti.text();}).then(function(tok){return fetch('/members/api/send-magic-link/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,emailType:'subscribe',labels:[],integrityToken:tok.replace(/"/g,'')})});}).then(function(r){
+        btn.textContent='subscribe';
+        btn.disabled=false;
+        if(r.ok){
+          localStorage.setItem('jv-subscribed',email);
+          showMsg(d,'check your inbox for a confirmation link. even spam.');
+          inp.value='';
+        } else if(r.status===429){
+          showMsg(d,"you're already in. nice one.");
+        } else {
+          showMsg(d,'something went wrong. try again in a moment.');
+        }
+      }).catch(function(){
+        btn.textContent='subscribe';
+        btn.disabled=false;
+        showMsg(d,'something went wrong. try again in a moment.');
+      });
+    });
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+<script>
+(function(){
+  if(!document.querySelector('.error-404'))return;
+  var d=document.createElement('div');
+  d.id='jv-agent-404';
+  d.innerHTML='<h2>Page not found</h2><p>This path does not exist on josephvoelbel.com. HTTP status: 404.</p><p>Agent navigation:</p><ul><li>Homepage: https://www.josephvoelbel.com/</li><li>Sitemap (XML): https://www.josephvoelbel.com/sitemap.xml</li><li>Agent index (llms.txt): https://www.josephvoelbel.com/llms.txt</li><li>About: https://www.josephvoelbel.com/about/</li><li>Contact: https://www.josephvoelbel.com/contact/</li></ul>';
+    d.style.cssText='margin:2rem auto;max-width:600px;padding:1.5rem;font-family:monospace;font-size:14px;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;';
+  var main=document.getElementById('main')||document.body;
+  main.appendChild(d);
+})();
+</script>
+<!-- jv-ai-resume-widget START -->
+<style>
+#jv-ask-resume{width:100%;max-width:640px;margin:0 auto 2.5rem;font-family:inherit;box-sizing:border-box;overflow-x:hidden}
+#jv-ask-resume *{box-sizing:border-box}
+#jv-ask-title{font-size:0.95rem;font-weight:600;letter-spacing:0.02em;margin-bottom:0.6em;color:#111}
+#jv-ask-row{display:flex;align-items:center;width:100%;border:1px solid #b8964a;border-radius:4px;background:#fff;padding:0 10px}
+#jv-ask-row:focus-within{border-color:#8a6f2e}
+#jv-ask-input{flex:1;min-width:0;width:100%;background:transparent;border:none;outline:none;font-family:inherit;font-size:16px;color:#111;padding:12px 0}
+#jv-ask-input::placeholder{color:rgba(0,0,0,0.35)}
+#jv-ask-btn{flex:0 0 auto;background:#1B4332;color:#fff;border:none;padding:0.55em 1.1em;font-size:0.82rem;font-family:inherit;font-weight:600;cursor:pointer;border-radius:3px;margin-left:8px;white-space:nowrap}
+#jv-ask-btn:hover{background:#163d29}
+#jv-ask-chips{margin-top:0.7em;display:flex;flex-wrap:wrap;gap:6px;width:100%}
+.jv-chip{font-size:0.72rem;color:#111;background:rgba(184,150,74,0.12);border:1px solid rgba(184,150,74,0.45);border-radius:20px;padding:5px 13px;cursor:pointer;max-width:100%;overflow-wrap:anywhere}
+.jv-chip:hover{background:rgba(184,150,74,0.25)}
+#jv-ask-answer{margin-top:1.1em;width:100%;border:1px solid rgba(0,0,0,0.08);border-radius:4px;background:#faf9f6;padding:1em 1.1em;display:none;font-size:0.95rem;line-height:1.6;color:#222;overflow-wrap:anywhere;word-break:break-word}
+#jv-ask-meta{margin-top:0.6em;font-size:0.7rem;color:rgba(0,0,0,0.4)}
+</style>
+<script>
+(function(){
+  if(location.pathname.replace(/\/$/,'')!=='/ai-resume') return;
+  var DATA_URL='https://raw.githubusercontent.com/highnoonoffice/hno-skills/main/data/resume-qa.json';
+  var STOPWORDS=['a','an','the','is','are','was','were','does','did','do','what','who','how','of','to','in','on','for','and','or','has','have','had','about','with','joseph','josephs','his','him','he'];
+  var qa=null,loading=false;
+  function tokenize(s){return (s||'').toLowerCase().replace(/[^a-z0-9\s]/g,' ').split(/\s+/).filter(function(t){return t.length>1 && STOPWORDS.indexOf(t)===-1;});}
+  function scoreEntry(qt,e){var p=tokenize(e.question+' '+(e.aliases||[]).join(' '));var tg=tokenize((e.tags||[]).join(' '));var sc=0;qt.forEach(function(t){if(p.indexOf(t)>-1)sc+=3;else if(tg.indexOf(t)>-1)sc+=1;});return sc;}
+  function renderChips(){var w=document.getElementById('jv-ask-chips');if(!qa||!w)return;var el=qa.filter(function(e){return (e.tags||[]).indexOf('meta')===-1;});for(var x=el.length-1;x>0;x--){var y=Math.floor(Math.random()*(x+1));var tmp=el[x];el[x]=el[y];el[y]=tmp;}var pk=el.slice(0,4);w.innerHTML='';pk.forEach(function(e){var c=document.createElement('div');c.className='jv-chip';c.textContent=e.question;c.addEventListener('click',function(){document.getElementById('jv-ask-input').value=e.question;ask();});w.appendChild(c);});}
+  function load(){if(qa||loading)return Promise.resolve();loading=true;return fetch(DATA_URL).then(function(r){return r.json();}).then(function(d){qa=d;loading=false;renderChips();}).catch(function(){loading=false;qa=[];});}
+  function ask(){var i=document.getElementById('jv-ask-input');var ab=document.getElementById('jv-ask-answer');var q=(i.value||'').trim();if(!q)return;ab.style.display='block';ab.innerHTML='Thinking…';load().then(function(){var qt=tokenize(q);var best=null,bs=0;(qa||[]).forEach(function(e){var s=scoreEntry(qt,e);if(s>bs){bs=s;best=e;}});if(!best||bs<2){ab.innerHTML='I don\'t have that in Joseph\'s resume yet. Try asking about his role at Thomson Reuters, his AI work, his education, or his published writing.';}else{ab.innerHTML=best.answer+'<div id="jv-ask-meta">confidence: '+(best.confidence||'unspecified')+'</div>';}if(ab.scrollIntoView)ab.scrollIntoView({behavior:'smooth',block:'nearest'});});}
+  function build(){
+    var mount=document.querySelector('.post-content, .gh-content, article');
+    if(!mount) return;
+    if(document.getElementById('jv-ask-resume')) return;
+    var wrap=document.createElement('div');
+    wrap.id='jv-ask-resume';
+    wrap.innerHTML='<div id="jv-ask-title">Ask This Resume</div><div id="jv-ask-row"><input id="jv-ask-input" type="text" placeholder="ask a question about Joseph\'s career" autocomplete="off"><button id="jv-ask-btn" type="button">Ask</button></div><div id="jv-ask-chips"></div><div id="jv-ask-answer"></div>';
+    mount.insertBefore(wrap, mount.firstChild);
+    document.getElementById('jv-ask-btn').addEventListener('click',ask);
+    document.getElementById('jv-ask-input').addEventListener('keydown',function(e){if(e.key==='Enter')ask();});
+    load();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',build);
+  else build();
+})();
+</script>
+<!-- jv-ai-resume-widget END -->
+<!-- jv-faq-jsonld START -->
+<script>
+(function(){
+  if(location.pathname.replace(/\/$/,'')!=='/ai-resume') return;
+  fetch('https://raw.githubusercontent.com/highnoonoffice/hno-skills/main/data/resume-qa.json').then(function(r){return r.json();}).then(function(qa){
+    var ld={'@context':'https://schema.org','@type':'FAQPage','mainEntity':qa.map(function(e){return {'@type':'Question','name':e.question,'acceptedAnswer':{'@type':'Answer','text':e.answer}};})};
+    var s=document.createElement('script');
+    s.type='application/ld+json';
+    s.textContent=JSON.stringify(ld);
+    document.head.appendChild(s);
+  }).catch(function(){});
+})();
+</script>
+<!-- jv-faq-jsonld END -->

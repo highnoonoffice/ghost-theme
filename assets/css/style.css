@@ -65,7 +65,7 @@ body {
 }
 
 .post-link:visited { color: #555; }
-.post-link:hover { color: #0000EE; }
+.post-link:hover { color: #b8964a; }
 
 /* ---- Newsletter ---- */
 
@@ -175,8 +175,8 @@ form[data-members-form].error [data-members-error] { display: block; }
 .post-body h2 { font-size: 1.1rem; }
 .post-body h3 { font-size: 0.9375rem; }
 
-.post-body a { color: #0000EE; }
-.post-body a:visited { color: #551A8B; }
+.post-body a { color: #b8964a; }
+.post-body a:visited { color: #8a6f2e; }
 
 .post-body blockquote {
     border-left: 2px solid #d0d0d0;

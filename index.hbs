@@ -13,11 +13,13 @@
     </header>
 
     <section class="post-list">
+        {{#get "posts" filter="tag:-off-homepage" limit="all"}}
         {{#foreach posts}}
         <div class="post-item">
             <a href="{{url absolute="true"}}" class="post-link">/{{slug}}</a>
         </div>
         {{/foreach}}
+        {{/get}}
     </section>
 
     <footer class="site-footer">

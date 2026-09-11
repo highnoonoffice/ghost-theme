@@ -1,25 +1,16 @@
-# Ghost Theme — josephvoelbel.com
+# joseph-theme
 
-Custom Ghost theme for [josephvoelbel.com](https://josephvoelbel.com).
+Custom Ghost theme for josephvoelbel.com. Hyper-minimal, typography-first.
 
-Hyper-minimal. Typography-first. Built on the premise that the writing should be the
-loudest thing on the page — everything else is furniture.
+## Features
+- Minimal single-column layout
+- Ghost Pro compatible (v5+)
+- Audio player styling (slim, branded)
+- Page template with proper `{{#page}}` context
+- Code injection compatible
 
-## Design decisions
+## Deploy
+Upload `joseph-theme.zip` via Ghost Admin → Settings → Change Theme → Upload Theme.
 
-- Black background, gold accents
-- Serif body, clean hierarchy
-- No sidebar, no related posts, no comment section
-- Feature images only when they earn it
-- Mobile-first, intentional whitespace
-
-## Stack
-
-Ghost CMS · Handlebars · CSS
-
-No JavaScript frameworks. No build pipeline beyond what Ghost requires.
-
-## What it's for
-
-Longform essays, 19 Stories fiction, and occasional writing on AI, attention, and the
-future of work. Not designed to be forked — built for one publication and one voice.
+## Code Injection
+The live site relies on code injection (Ghost Admin → Settings → Code injection) for the search widget, the "Ask This Resume" widget (/ai-resume), inline subscribe box, nav, and structured data. That code is NOT part of the theme package — Ghost stores it separately in the database. A backup of the live head + foot injection is kept in `code-injection/head.html` and `code-injection/foot.html` in this repo. Keep them in sync whenever the live injection changes.
