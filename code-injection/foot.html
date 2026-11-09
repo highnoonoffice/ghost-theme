@@ -60,9 +60,17 @@ mark.hno-hl{background:transparent;color:#111;font-weight:600}
     async function load(){
       if(loaded)return;
       try{
-        var r=await fetch(GHOST+'/ghost/api/content/posts/?key='+KEY+'&limit=all&fields=title,slug,excerpt,feature_image,plaintext&order=published_at%20desc');
-        var d=await r.json();
-        posts=d.posts||[];
+        var all=[], page=1, limit=100;
+        while(true){
+          var r=await fetch(GHOST+'/ghost/api/content/posts/?key='+KEY+'&limit='+limit+'&page='+page+'&fields=title,slug,excerpt,feature_image,plaintext&order=published_at%20desc');
+          var d=await r.json();
+          var batch=d.posts||[];
+          all=all.concat(batch);
+          var next=(d.meta&&d.meta.pagination&&d.meta.pagination.next)||null;
+          if(!next||batch.length<limit)break;
+          page=next;
+        }
+        posts=all;
         loaded=true;
       }catch(e){}
     }
